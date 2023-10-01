@@ -25,10 +25,42 @@ function sortDesc() {
   });
 }
 
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
 function filter(list, option) {
-  return list.filter(function (country) {
-    return country.continent.toLowerCase() === option; // evaluates to true or false
-  });
+  if (option === "all") {
+    return list;
+  } else if (option === "1") {
+    return list.filter(function (country) {
+      return country.population < 100000000; // less than 100M
+    });
+  } else if (option === "100m") {
+    return list.filter(function (country) {
+      return country.population >= 100000000; // 100M or more
+    });
+  } else if (option === "200m") {
+    return list.filter(function (country) {
+      return country.population >= 200000000; // 200M or more
+    });
+  } else if (option === "500m") {
+    return list.filter(function (country) {
+      return country.population >= 500000000; // 500M or more
+    });
+  } else if (option === "1b") {
+    return list.filter(function (country) {
+      return country.population >= 1000000000; // 1B or more
+    });
+  } else {
+    return list.filter(function (country) {
+      return country.continent.toLowerCase() === option;
+    });
+  }
 }
 
 export default function App() {
@@ -50,6 +82,8 @@ export default function App() {
       return sortDesc();
     } else if (option === "<") {
       return sortAsc();
+    } else if (option === "shuffle") {
+      return shuffle([...data.countries]);
     } else {
       return data.countries;
     }
